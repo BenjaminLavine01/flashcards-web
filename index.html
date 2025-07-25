@@ -350,6 +350,9 @@
                     </div>
                     
                     <button type="submit"><i class="fas fa-save"></i> Save Flashcard</button>
+                    <button type="button" id="shuffle-btn" style="margin-top: 10px;"><i class="fas fa-random"></i> Shuffle Cards
+</button>
+
                 </form>
                 
                 <div class="tutorial">
@@ -399,16 +402,16 @@
             
             // Load flashcards from localStorage or initialize with sample data
             let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [
-            {
-                    word: "Photosynthesis",
-                    definition: "The process by which green plants use sunlight to synthesize food from carbon dioxide and water.",
-                    dateAdded: new Date().toISOString()
-            },
-            {
-                    word: "Ecosystem",
-                    definition: "A community of interacting organisms and their physical environment.",
-                    dateAdded: new Date().toISOString()
-            }
+        {
+            word: "Photosynthesis",
+            definition: "The process by which green plants use sunlight to synthesize food from carbon dioxide and water.",
+            dateAdded: new Date().toISOString()
+        },
+        {
+            word: "Ecosystem",
+            definition: "A community of interacting organisms and their physical environment.",
+            dateAdded: new Date().toISOString()
+        }
 ];
 
             let today = new Date().toDateString();
@@ -531,6 +534,26 @@
             // Initialize the app
             updateStats();
             renderFlashcards();
+            // Shuffle button logic
+            document.getElementById('shuffle-btn').addEventListener('click', () => {
+                flashcards = shuffleArray(flashcards);
+                saveFlashcards();
+                renderFlashcards();
+                showNotification('Flashcards shuffled!');
+            });
+
+            // Helper: Fisher-Yates Shuffle
+            function shuffleArray(array) {
+                let currentIndex = array.length, randomIndex;
+                while (currentIndex !== 0) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex--;
+                    [array[currentIndex], array[randomIndex]] = [
+                        array[randomIndex], array[currentIndex]
+                    ];
+                }
+                return array;
+            }
         });
     </script>
 </body>
