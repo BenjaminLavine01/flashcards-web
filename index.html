@@ -398,7 +398,19 @@
             const notification = document.getElementById('notification');
             
             // Load flashcards from localStorage or initialize with sample data
-            let flashcards = JSON.parse(localStorage.getItem('flashcards')) || sampleFlashcards;
+            let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [
+            {
+                    word: "Photosynthesis",
+                    definition: "The process by which green plants use sunlight to synthesize food from carbon dioxide and water.",
+                    dateAdded: new Date().toISOString()
+            },
+            {
+                    word: "Ecosystem",
+                    definition: "A community of interacting organisms and their physical environment.",
+                    dateAdded: new Date().toISOString()
+            }
+];
+
             let today = new Date().toDateString();
             let todayCount = 0;
             
