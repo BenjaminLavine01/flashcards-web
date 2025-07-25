@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards Learning App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: #333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .cards-section {
+            flex: 2;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-delete {
+            background: #e74c3c;
+        }
+        
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+        }
+        
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .flashcard {
+            height: 220px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .flashcard-front {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+        }
+        
+        .flashcard-back {
+            background: white;
+            color: #2c3e50;
+            transform: rotateY(180deg);
+            border: 2px solid #3498db;
+        }
+        
+        .word {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .definition {
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+        
+        .hint {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .card-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7f8c8d;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #bdc3c7;
+        }
+        
+        .empty-state p {
+            font-size: 1.2rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3498db;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-layer-group"></i> Flashcards Learning App</h1>
+            <h2>Create, store, and review flashcards to enhance your vocabulary and knowledge retention</h2>
+            <p>By Benjamin Nguyen</p>
+        </header>
+        
+        <div class="app-container">
+            <section class="form-section">
+                <h2 class="section-title"><i class="fas fa-plus-circle"></i> Add New Flashcard</h2>
+                
+                <form id="flashcard-form">
+                    <div class="form-group">
+                        <label for="word"><i class="fas fa-font"></i> Word/Term</label>
+                        <input type="text" id="word" placeholder="Enter a word or term" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="definition"><i class="fas fa-book"></i> Definition</label>
+                        <textarea id="definition" placeholder="Enter the definition" required></textarea>
+                    </div>
+                    
+                    <button type="submit"><i class="fas fa-save"></i> Save Flashcard</button>
+                </form>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="total-cards">0</div>
+                        <div class="stat-label">Total Cards</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="today-added">0</div>
+                        <div class="stat-label">Added Today</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="cards-section">
+                <h2 class="section-title"><i class="fas fa-clone"></i> Your Flashcards</h2>
+                
+                <div class="cards-grid" id="cards-container">
+                    <!-- Flashcards will be dynamically added here -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const flashcardForm = document.getElementById('flashcard-form');
+            const cardsContainer = document.getElementById('cards-container');
+            const totalCardsElement = document.getElementById('total-cards');
+            const todayAddedElement = document.getElementById('today-added');
+            
+            // Load flashcards from localStorage or initialize empty array
+            let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
+            let today = new Date().toDateString();
+            let todayCount = 0;
+            
+            // Update stats
+            function updateStats() {
+                totalCardsElement.textContent = flashcards.length;
+                
+                // Count cards added today
+                todayCount = flashcards.filter(card => {
+                    return new Date(card.dateAdded).toDateString() === today;
+                }).length;
+                
+                todayAddedElement.textContent = todayCount;
+            }
+            
+            // Save flashcards to localStorage
+            function saveFlashcards() {
+                localStorage.setItem('flashcards', JSON.stringify(flashcards));
+                updateStats();
+            }
+            
+            // Create flashcard element
+            function createFlashcardElement(card, index) {
+                const flashcard = document.createElement('div');
+                flashcard.className = 'flashcard';
+                flashcard.innerHTML = `
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="word">${card.word}</div>
+                            <div class="hint">Click to flip</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="definition">${card.definition}</div>
+                            <div class="card-actions">
+                                <button class="btn-delete" onclick="deleteFlashcard(${index})"><i class="fas fa-trash"></i> Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add flip functionality
+                flashcard.addEventListener('click', (e) => {
+                    if (!e.target.closest('.btn-delete')) {
+                        flashcard.classList.toggle('flipped');
+                    }
+                });
+                
+                return flashcard;
+            }
+            
+            // Render all flashcards
+            function renderFlashcards() {
+                cardsContainer.innerHTML = '';
+                
+                if (flashcards.length === 0) {
+                    cardsContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h3>No Flashcards Yet</h3>
+                            <p>Start by adding your first flashcard using the form on the left.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                flashcards.forEach((card, index) => {
+                    const cardElement = createFlashcardElement(card, index);
+                    cardsContainer.appendChild(cardElement);
+                });
+            }
+            
+            // Delete a flashcard
+            window.deleteFlashcard = function(index) {
+                if (confirm('Are you sure you want to delete this flashcard?')) {
+                    flashcards.splice(index, 1);
+                    saveFlashcards();
+                    renderFlashcards();
+                }
+            };
+            
+            // Handle form submission
+            flashcardForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const wordInput = document.getElementById('word');
+                const definitionInput = document.getElementById('definition');
+                
+                const newCard = {
+                    word: wordInput.value.trim(),
+                    definition: definitionInput.value.trim(),
+                    dateAdded: new Date().toISOString()
+                };
+                
+                flashcards.push(newCard);
+                saveFlashcards();
+                renderFlashcards();
+                
+                // Reset form
+                wordInput.value = '';
+                definitionInput.value = '';
+                wordInput.focus();
+                
+                // Show confirmation
+                alert('Flashcard added successfully!');
+            });
+            
+            // Initialize the app
+            updateStats();
+            renderFlashcards();
+        });
+    </script>
+</body>
+</html>
