@@ -32,8 +32,8 @@
         header {
             text-align: center;
             margin-bottom: 40px;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            color: rgb(255, 255, 255);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
         
         header h1 {
@@ -61,28 +61,30 @@
         .form-section {
             flex: 1;
             min-width: 300px;
-            background: white;
+            background: rgb(255, 0, 140);
             border-radius: 16px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.72);
         }
         
         .cards-section {
             flex: 2;
             min-width: 300px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgb(255, 0, 140);
             border-radius: 16px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.72);
         }
         
         .section-title {
             font-size: 1.8rem;
             margin-bottom: 25px;
-            color: #2c3e50;
+            color: #ffffff;
             display: flex;
             align-items: center;
             gap: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6)
+
         }
         
         .form-group {
@@ -93,16 +95,18 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #2c3e50;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6)
         }
         
         input, textarea {
             width: 100%;
             padding: 14px;
-            border: 2px solid #ddd;
+            border: 2px solid rgb(255, 0, 140);
             border-radius: 10px;
             font-size: 1rem;
             transition: border-color 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
         }
         
         input:focus, textarea:focus {
@@ -113,10 +117,11 @@
         textarea {
             min-height: 120px;
             resize: vertical;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
         }
         
         button {
-            background: #3498db;
+            background: #ff9900;
             color: white;
             border: none;
             padding: 14px 25px;
@@ -128,10 +133,11 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
         
         button:hover {
-            background: #2980b9;
+            background: #ff8800;
             transform: translateY(-2px);
         }
         
@@ -144,7 +150,7 @@
         }
         
         .btn-delete:hover {
-            background: #c0392b;
+            background: #ff2a12;
         }
         
         .cards-grid {
@@ -185,19 +191,21 @@
             align-items: center;
             padding: 25px;
             border-radius: 16px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
         
         .flashcard-front {
-            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            background: linear-gradient(135deg, #eeb600 0%, #eeb600 100%);
             color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
         
         .flashcard-back {
             background: white;
-            color: #2c3e50;
+            color: #6a11cb;
             transform: rotateY(180deg);
-            border: 2px solid #3498db;
+            border: 2px solid #eeb600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
         
         .word {
@@ -228,13 +236,13 @@
         .empty-state {
             text-align: center;
             padding: 40px 20px;
-            color: #7f8c8d;
+            color: #ffffff;
         }
         
         .empty-state i {
             font-size: 4rem;
             margin-bottom: 20px;
-            color: #bdc3c7;
+            color: #ffffff;
         }
         
         .empty-state p {
@@ -250,7 +258,7 @@
             padding: 15px 25px;
             border-radius: 12px;
             margin-top: 25px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
         
         .stat-item {
@@ -260,12 +268,13 @@
         .stat-value {
             font-size: 2rem;
             font-weight: 700;
-            color: #3498db;
+            color: #ff9900;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2)
         }
         
         .stat-label {
             font-size: 0.9rem;
-            color: #7f8c8d;
+            color: #6a11cb;
         }
 
         .notification {
@@ -276,7 +285,7 @@
             background: #2ecc71;
             color: white;
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             transform: translateX(200%);
             transition: transform 0.3s ease-in-out;
             z-index: 1000;
@@ -291,19 +300,22 @@
             border-radius: 12px;
             padding: 20px;
             margin-top: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
         
         .tutorial h3 {
             margin-bottom: 15px;
-            color: #2c3e50;
+            color: #ff9900;
             display: flex;
             align-items: center;
             gap: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1)
         }
         
         .tutorial ol {
             padding-left: 20px;
+            color: #6a11cb;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1)
         }
         
         .tutorial li {
